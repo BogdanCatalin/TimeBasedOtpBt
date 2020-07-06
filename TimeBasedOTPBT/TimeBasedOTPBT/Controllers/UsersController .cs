@@ -47,7 +47,8 @@ namespace TimeBasedOTPBT.Controllers
             return Ok(new
             {
                 Id = anonymousUser.Id,
-                TotpPassword = anonymousUser.TotpPassword
+                TotpPassword = anonymousUser.TotpPassword,
+                RemainingTime = anonymousUser.RemainingTime
             });
         }
 
@@ -58,7 +59,7 @@ namespace TimeBasedOTPBT.Controllers
             var isAuthenticated = _userService.Authenticate(model.Id, model.TotpPassword);
 
             if (!isAuthenticated)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                return BadRequest(new { message = "Incorrect Totp Password" });
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);

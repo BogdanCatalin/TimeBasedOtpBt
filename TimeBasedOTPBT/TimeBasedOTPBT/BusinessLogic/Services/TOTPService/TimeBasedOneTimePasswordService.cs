@@ -1,5 +1,6 @@
 ﻿using System;
 using TimeBasedOTPBT.BusinessLogic.Services.HOTPService;
+using TimeBasedOTPBT.Models.Totp;
 
 namespace TimeBasedOTPBT.BusinessLogic.Services.TOTPService
 {
@@ -14,9 +15,10 @@ namespace TimeBasedOTPBT.BusinessLogic.Services.TOTPService
             _hotpService = hotpService;
         }
 
-        public string GetPassword(string secret)
+        public TotpModel GetPassword(int secret)
         {
-            return GetPassword(secret, GetCurrentCounter());
+            //return GetPassword(secret.ToString(), GetCurrentCounter());
+            return new TotpModel();
         }
 
         private string GetPassword(string secret, long counter, int digits = 6)
@@ -26,12 +28,17 @@ namespace TimeBasedOTPBT.BusinessLogic.Services.TOTPService
 
         private long GetCurrentCounter()
         {
-            return GetCurrentCounter(DateTime.Now, UNIX_EPOCH, 30);
+            return GetCurrentCounter(DateTime.UtcNow, UNIX_EPOCH, 30);
         }
 
         private long GetCurrentCounter(DateTime now, DateTime epoch, int timeStep)
         {
             return (long)(now - epoch).TotalSeconds / timeStep;
+        }
+
+        public bool VerifyTotpPassword(string totp, int secret)
+        {
+            throw new NotImplementedException();
         }
     }
 }

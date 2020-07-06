@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TimeBasedOTPBT.BusinessLogic.Services.TOTPService;
 using TimeBasedOTPBT.Common.Exceptions;
 using TimeBasedOTPBT.Persistence.Contexts;
@@ -35,12 +34,12 @@ namespace TimeBasedOTPBT.BusinessLogic.Services.UserService
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 return null;
 
-            var totpPassword = _totpSerivce.GetPassword(user.Id.ToString());
-
-            if (string.IsNullOrEmpty(totpPassword))
+            var totpObject = _totpSerivce.GetPassword(user.Id);
+            
+            if (string.IsNullOrEmpty(totpObject.TotpPassword))
                 return null;
 
-            return new { Id = user.Id, TotpPassword = totpPassword };
+            return new { Id = user.Id, TotpPassword = totpObject.TotpPassword, RemainingTime = totpObject.RemainingTime };
         }
 
         public bool Authenticate(string id, string totpPassword)
@@ -48,9 +47,7 @@ namespace TimeBasedOTPBT.BusinessLogic.Services.UserService
             if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(totpPassword))
                 return false;
 
-            //var user = _context.Users.SingleOrDefault(x => x.Username == username);
-
-            if (!totpPassword.Equals(_totpSerivce.GetPassword(id)))
+            if (!_totpSerivce.VerifyTotpPassword(totpPassword, Int32.Parse(id)))
                 return false;
 
             return true;

@@ -1,7 +1,6 @@
 <template>
     <div>
         <h2>Login</h2>
-        <Counter />
         <form @submit.prevent="handleSubmit">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -24,7 +23,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import Counter from '../components/Counter.vue'
 
 export default {
     data () {
@@ -39,10 +37,10 @@ export default {
     },
     created () {
         // reset login status
-        //this.logout();
+        this.logout();
     },
     methods: {
-        ...mapActions('account', ['login']),
+        ...mapActions('account', ['login', 'logout']),
         handleSubmit (e) {
             this.submitted = true;
             const { username, password } = this;
@@ -50,10 +48,6 @@ export default {
                 this.login({ username, password })
             }
         }
-    },
-
-    components: {
-        Counter
     }
 };
 </script>

@@ -50,18 +50,6 @@ const actions = {
                     dispatch('alert/error', error, { root: true });
                 }
             );
-    
-        // userService.login(username, password)
-        //     .then(
-        //         user => {
-        //             commit('loginSuccess', user);
-        //             router.push('/totp');
-        //         },
-        //         error => {
-        //             commit('loginFailure', error);
-        //             dispatch('alert/error', error, { root: true });
-        //         }
-        //     );
     },
     logout({ commit }) {
         userService.logout();

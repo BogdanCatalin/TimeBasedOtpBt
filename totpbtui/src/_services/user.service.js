@@ -63,6 +63,7 @@ function authenticate(totppassword) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
+    localStorage.removeItem('userToken');
 }
 
 function register(user) {

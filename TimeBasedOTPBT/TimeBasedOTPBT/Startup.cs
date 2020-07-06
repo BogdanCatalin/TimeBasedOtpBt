@@ -85,7 +85,7 @@ namespace TimeBasedOTPBT
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IHasedOneTimePasswordService, HasedOneTimePasswordService>();
-            services.AddScoped<ITimeBasedOneTimePasswordService, TimeBasedOneTimePasswordService>();
+            services.AddScoped<ITimeBasedOneTimePasswordService, TimeBasedOneTimePasswordNuGetService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
